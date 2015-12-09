@@ -10,4 +10,5 @@ authors = ["nabijaczleweli <nabijaczleweli@gmail.com>"]
 
 
 [dependencies]
-rustc-serialize = "0.3.16"
+serde = "0.6.6"
+serde_json = "0.6.0"
