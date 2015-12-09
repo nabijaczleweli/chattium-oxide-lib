@@ -1,11 +1,11 @@
-extern crate rustc_serialize;
+extern crate serde;
+extern crate serde_json;
 
-use std::collections::btree_map::BTreeMap;
 use std::net::{SocketAddr, ToSocketAddrs};
 use std::fs::File;
 use std::io::Write;
-use rustc_serialize::{Decodable, Decoder, Encodable, Encoder};
-use rustc_serialize::json::{self, ToJson, Json};
+use serde::de::{Error, Type};
+use serde_json::value::Value;
 
 
 #[derive(Debug)]
@@ -14,7 +14,7 @@ pub struct ChatUser {
 	pub poster: SocketAddr,
 }
 
-#[derive(RustcDecodable)]
+#[derive(Debug)]
 pub struct ChatMessage {
 	pub sender: ChatUser,
 	pub value: String,
@@ -30,42 +30,46 @@ impl ChatUser {
 			poster: poster.to_socket_addrs().ok().unwrap().next().unwrap(),  //TODO: This should probably be handled, eh?
 		}
 	}
-}
 
-impl Decodable for ChatUser {
-	fn decode<D: Decoder>(d: &mut D) -> Result<Self, D::Error> {
-		let name = try!(d.read_str());
-		let poster: &str = &*&try!(d.read_str());
-		File::create("lel").ok().unwrap().write_fmt(format_args!("{}\n{}", name, poster));
-		Ok(ChatUser::get(name, poster))
+	pub fn to_json(&self) -> serde_json::Value {
+		serde_json::builder::ObjectBuilder::new().insert("name", &self.name).insert("poster", self.poster.to_string()).unwrap()
+	}
+
+	pub fn from_json(json: serde_json::Value) -> Result<ChatUser, serde_json::error::Error> {
+		match json {
+			Value::Object(map) => {
+				let name =
+					match map.get("name") {
+						Some(name) =>
+							match name {
+								&Value::String(ref name) => name,
+								_ => return Err(serde_json::error::Error::type_mismatch(Type::String)),
+							},
+						None => return Err(serde_json::error::Error::missing_field("Missing \"name\"")),
+					};
+				let poster =
+					match map.get("poster") {
+						Some(poster) =>
+							match poster {
+								&Value::String(ref poster) => poster,
+								_ => return Err(serde_json::error::Error::type_mismatch(Type::String)),
+							},
+						None => return Err(serde_json::error::Error::missing_field("Missing \"poster\"")),
+					};
+
+				Ok(ChatUser::get(name.clone(), &poster[..]))
+			},
+			_ => Err(serde_json::error::Error::type_mismatch(Type::Struct)),
+		}
 	}
 }
-
-
-impl ToJson for ChatUser {
-	fn to_json(&self) -> Json {
-		let mut d = BTreeMap::new();
-		// All standard types implement `to_json()`, so use it
-		d.insert("name".to_string(), self.name.to_json());
-		d.insert("poster".to_string(), self.poster.to_string().to_json());
-		Json::Object(d)
-	}
-}
-
-/*impl Encodable for ChatUser {
-	fn encode<S: Encoder>(&self, s: &mut S) -> Result<(), S::Error> {
-		try!(s.emit_str(&*&self.name));
-		try!(s.emit_str(&*&format!("{}", self.poster)));
-		Ok(())
-	}
-}*/
 
 
 #[test]
 fn asdf() {
 	let cu = ChatUser::get("keke".to_string(), "127.0.0.1:50030");
-	let jsoned = cu.to_json().to_string();
-	let _ = File::create("lol").ok().unwrap().write_fmt(format_args!("{}", jsoned));
-	let decoded = json::decode::<ChatUser>(&jsoned);
+	let jsoned = serde_json::to_string(&cu.to_json());
+	let _ = File::create("lol").ok().unwrap().write_fmt(format_args!("{:?}", jsoned));
+	let decoded = ChatUser::from_json(serde_json::from_str(&*&jsoned.ok().unwrap()).ok().unwrap());
 	let _ = File::create("kek").ok().unwrap().write_fmt(format_args!("{:?}", decoded));
 }
