@@ -17,8 +17,9 @@ fn asdf() {
 	use json::*;
 
 	let cu = ChatUser::get("keke".to_string(), "127.0.0.1:50030");
-	let jsoned = serde_json::to_string(&cu.to_json());
+	let cm = ChatMessage::new(cu, "top-kek".to_string());
+	let jsoned = cu.to_json_string();
 	let _ = File::create("lol").ok().unwrap().write_fmt(format_args!("{:?}", jsoned));
-	let decoded = ChatUser::from_json(serde_json::from_str(&*&jsoned.ok().unwrap()).ok().unwrap());
+	let decoded = ChatMessage::from_json_string(&*&jsoned.ok().unwrap());
 	let _ = File::create("kek").ok().unwrap().write_fmt(format_args!("{:?}", decoded));
 }
