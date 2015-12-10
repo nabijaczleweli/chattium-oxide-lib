@@ -1,8 +1,9 @@
 use std::net::{SocketAddr, ToSocketAddrs};
+use json::{ToJsonnable, FromJsonnable};
 use serde::de::{Error, Type};
 use serde_json::value::Value;
-use serde_json::builder::ObjectBuilder;
 use serde_json::error::Error as JsonError;
+use serde_json::builder::ObjectBuilder;
 
 
 #[derive(Debug)]
@@ -21,12 +22,10 @@ impl ChatUser {
 			poster: poster.to_socket_addrs().ok().unwrap().next().unwrap(),  //TODO: This should probably be handled, eh?
 		}
 	}
+}
 
-	pub fn to_json(&self) -> Value {
-		ObjectBuilder::new().insert("name", &self.name).insert("poster", self.poster.to_string()).unwrap()
-	}
-
-	pub fn from_json(json: Value) -> Result<ChatUser, JsonError> {
+impl FromJsonnable for ChatUser {
+	fn from_json(json: Value) -> Result<ChatUser, JsonError> {
 		match json {
 			Value::Object(map) => {
 				let name =
@@ -52,5 +51,13 @@ impl ChatUser {
 			},
 			_ => Err(JsonError::type_mismatch(Type::Struct)),
 		}
+	}
+}
+
+impl ToJsonnable for ChatUser {
+	fn to_json(&self) -> Value {
+		ObjectBuilder::new().insert("name", &self.name)
+		                    .insert("poster", self.poster.to_string())
+		                    .unwrap()
 	}
 }
