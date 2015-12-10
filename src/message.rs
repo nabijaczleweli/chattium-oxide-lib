@@ -1,6 +1,4 @@
-mod user;
-
-use self::user::ChatUser;
+use ChatUser;
 
 
 #[derive(Debug)]
