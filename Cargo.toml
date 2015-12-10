@@ -10,5 +10,6 @@ authors = ["nabijaczleweli <nabijaczleweli@gmail.com>"]
 
 
 [dependencies]
+time = "0.1.34"
 serde = "0.6.6"
 serde_json = "0.6.0"
