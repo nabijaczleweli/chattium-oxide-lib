@@ -13,8 +13,8 @@ impl FromJsonnable for Tm {
 			Value::Object(map) => {
 				let sec =
 					match map.get("sec") {
-						Some(_sec) =>
-							match _sec {
+						Some(sec) =>
+							match sec {
 								&Value::I64(sec) => sec,
 								&Value::U64(sec) => sec as i64,  // The types get weird here
 								_ => return Err(JsonError::type_mismatch(Type::I64)),
