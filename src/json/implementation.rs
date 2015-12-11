@@ -7,6 +7,7 @@ use serde_json::builder::ObjectBuilder;
 
 
 impl FromJsonnable for Tm {
+	// Deserialize via Timespec
 	fn from_json(json: Value) -> Result<Self, JsonError> {
 		match json {
 			Value::Object(map) => {
@@ -39,6 +40,7 @@ impl FromJsonnable for Tm {
 }
 
 impl ToJsonnable for Tm {
+	// Serialize via Timespec
 	fn to_json(&self) -> Value {
 		let spec = self.to_timespec();
 		ObjectBuilder::new().insert("sec", &spec.sec)
