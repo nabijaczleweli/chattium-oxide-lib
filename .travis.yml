@@ -13,13 +13,13 @@ script:  # Added "--features ci to default"
   - cargo test --verbose --features ci
 
 after_script:
-  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "TRAVIS_RUST_VERSION" -eq "stable" ]; then echo "Update docs for commit $TRAVIS_COMMIT" > $TRAVIS_BUILD_DIR/../DOC_UPDATE_MSG; fi
-  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "TRAVIS_RUST_VERSION" -eq "stable" ]; then echo >> $TRAVIS_BUILD_DIR/../DOC_UPDATE_MSG; fi
-  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "TRAVIS_RUST_VERSION" -eq "stable" ]; then git log $TRAVIS_COMMIT_RANGE --pretty=oneline >> $TRAVIS_BUILD_DIR/../DOC_UPDATE_MSG; fi
-  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "TRAVIS_RUST_VERSION" -eq "stable" ]; then mkdir -p ~/.ssh; fi
-  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "TRAVIS_RUST_VERSION" -eq "stable" ]; then cp gh_rsa ~/.ssh/id_rsa; fi
-  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "TRAVIS_RUST_VERSION" -eq "stable" ]; then git clone -b doc git@github.com:nabijaczleweli/chattium-oxide-lib.git $TRAVIS_BUILD_DIR-doc; fi
-  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "TRAVIS_RUST_VERSION" -eq "stable" ]; then ln -s $TRAVIS_BUILD_DIR-doc target/doc; fi
-  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "TRAVIS_RUST_VERSION" -eq "stable" ]; then cargo doc; fi
-  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "TRAVIS_RUST_VERSION" -eq "stable" ]; then cd $TRAVIS_BUILD_DIR-doc && git add * && git commit -F $TRAVIS_BUILD_DIR/../DOC_UPDATE_MSG; fi
-  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "TRAVIS_RUST_VERSION" -eq "stable" ]; then git push && cd $TRAVIS_BUILD_DIR; fi
+  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "$TRAVIS_RUST_VERSION" == "stable" ]; then echo "Update docs for commit $TRAVIS_COMMIT" > $TRAVIS_BUILD_DIR/../DOC_UPDATE_MSG; fi
+  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "$TRAVIS_RUST_VERSION" == "stable" ]; then echo >> $TRAVIS_BUILD_DIR/../DOC_UPDATE_MSG; fi
+  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "$TRAVIS_RUST_VERSION" == "stable" ]; then git log $TRAVIS_COMMIT_RANGE --pretty=oneline >> $TRAVIS_BUILD_DIR/../DOC_UPDATE_MSG; fi
+  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "$TRAVIS_RUST_VERSION" == "stable" ]; then mkdir -p ~/.ssh; fi
+  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "$TRAVIS_RUST_VERSION" == "stable" ]; then cp gh_rsa ~/.ssh/id_rsa; fi
+  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "$TRAVIS_RUST_VERSION" == "stable" ]; then git clone -b doc git@github.com:nabijaczleweli/chattium-oxide-lib.git $TRAVIS_BUILD_DIR-doc; fi
+  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "$TRAVIS_RUST_VERSION" == "stable" ]; then ln -s $TRAVIS_BUILD_DIR-doc target/doc; fi
+  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "$TRAVIS_RUST_VERSION" == "stable" ]; then cargo doc; fi
+  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "$TRAVIS_RUST_VERSION" == "stable" ]; then cd $TRAVIS_BUILD_DIR-doc && git add * && git commit -F $TRAVIS_BUILD_DIR/../DOC_UPDATE_MSG; fi
+  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "$TRAVIS_RUST_VERSION" == "stable" ]; then git push && cd $TRAVIS_BUILD_DIR; fi
