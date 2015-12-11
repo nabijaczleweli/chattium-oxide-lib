@@ -1,6 +1,7 @@
 *
 !.gitignore
 !.travis.yml
+!gh_rsa.enc
 !LICENSE
 !README.md
 !Cargo.toml
