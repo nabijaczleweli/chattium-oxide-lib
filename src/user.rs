@@ -6,10 +6,10 @@ use serde_json::error::Error as JsonError;
 use serde_json::builder::ObjectBuilder;
 
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ChatUser {
 	pub name: String,
-	pub poster: SocketAddr,
+	poster: SocketAddr,
 }
 
 
@@ -23,6 +23,15 @@ impl ChatUser {
 		}
 	}
 }
+
+impl PartialEq for ChatUser {
+	/// Only poster-wise comparison, names might change
+	fn eq(&self, other: &ChatUser) -> bool {
+		self.poster == other.poster
+	}
+}
+
+impl Eq for ChatUser {}
 
 impl FromJsonnable for ChatUser {
 	fn from_json(json: Value) -> Result<ChatUser, JsonError> {

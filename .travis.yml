@@ -3,3 +3,7 @@ rust:
   - stable
   - beta
   - nightly
+
+script:  # Added "--features ci to default"
+  - cargo build --verbose --features ci
+  - cargo test --verbose --features ci
