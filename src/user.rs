@@ -8,19 +8,45 @@ use serde_json::builder::ObjectBuilder;
 
 #[derive(Debug, Clone)]
 pub struct ChatUser {
+	/// User's desired name
 	pub name: String,
-	poster: SocketAddr,
+	poster: Option<SocketAddr>,
 }
 
 
 impl ChatUser {
-	//TODO: look it up somewhere, maybe?
+	fn socket_addr_to_option<Addr: ToSocketAddrs>(poster: Addr) -> Option<SocketAddr> {
+		match poster.to_socket_addrs() {
+			Ok(mut itr) =>
+				match itr.next() {
+					Some(addr) => Some(addr),
+					None => None,
+				},
+			Err(_) => None,
+		}
+	}
+
+	//TODO: look up the addr from name/vice versa, maybe?
 	/// Creates a user defined by the supplied arguments
 	pub fn get<Addr: ToSocketAddrs>(name: String, poster: Addr) -> ChatUser {
 		ChatUser{
 			name: name,
-			poster: poster.to_socket_addrs().ok().unwrap().next().unwrap(),  //TODO: This should probably be handled, eh?
+			poster: Self::socket_addr_to_option(poster),
 		}
+	}
+
+	/// Creates a named, IP-less user.
+	/// Used by the client, as it doesn't know its IP, which is filled in server-side using [`fill_ip()`](#method.fill_ip).
+	pub fn me(name: String) -> ChatUser {
+		ChatUser{
+			name: name,
+			poster: None,
+		}
+	}
+
+	/// Server-side function to fill in user's IP, see [`me()`](#method.me).
+	pub fn fill_ip<Addr: ToSocketAddrs>(&mut self, poster: Addr) {
+		self.poster = Self::socket_addr_to_option(poster);
 	}
 }
 
@@ -58,6 +84,7 @@ impl FromJsonnable for ChatUser {
 
 				Ok(ChatUser::get(name.clone(), &poster[..]))
 			},
+			Value::String(name) => Ok(ChatUser::me(name)),
 			_ => Err(JsonError::type_mismatch(Type::Struct)),
 		}
 	}
@@ -65,8 +92,13 @@ impl FromJsonnable for ChatUser {
 
 impl ToJsonnable for ChatUser {
 	fn to_json(&self) -> Value {
-		ObjectBuilder::new().insert("name", &self.name)
-		                    .insert("poster", self.poster.to_string())
-		                    .unwrap()
+		match self.poster {
+			Some(ref ip) =>
+				ObjectBuilder::new().insert("name", &self.name)
+				                    .insert("poster", ip.to_string())
+				                    .unwrap(),
+			None =>
+				Value::String(self.name.clone()),
+		}
 	}
 }
