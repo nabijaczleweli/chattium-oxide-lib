@@ -20,5 +20,7 @@ after_script:
   - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "$TRAVIS_RUST_VERSION" == "stable" ]; then git clone -b doc git@github.com:nabijaczleweli/chattium-oxide-lib.git $TRAVIS_BUILD_DIR-doc; fi
   - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "$TRAVIS_RUST_VERSION" == "stable" ]; then ln -s $TRAVIS_BUILD_DIR-doc target/doc; fi
   - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "$TRAVIS_RUST_VERSION" == "stable" ]; then cargo doc; fi
-  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "$TRAVIS_RUST_VERSION" == "stable" ]; then cd $TRAVIS_BUILD_DIR-doc && git add * && git commit -F $TRAVIS_BUILD_DIR/../DOC_UPDATE_MSG; fi
+  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "$TRAVIS_RUST_VERSION" == "stable" ]; then cd $TRAVIS_BUILD_DIR-doc; fi
+  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "$TRAVIS_RUST_VERSION" == "stable" ]; then cd git config --global user.email "nabijaczleweli@gmail.com"; git config --global user.name "Nabijaczleweli Autouploader Bot"; fi
+  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "$TRAVIS_RUST_VERSION" == "stable" ]; then git add * && git commit -F $TRAVIS_BUILD_DIR/../DOC_UPDATE_MSG; fi
   - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "$TRAVIS_RUST_VERSION" == "stable" ]; then git push && cd $TRAVIS_BUILD_DIR; fi
