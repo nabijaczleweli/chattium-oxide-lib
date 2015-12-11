@@ -95,9 +95,9 @@
 //! 		id: 50030,
 //! 		address: ("Diagon Alley".to_owned(), "London, UK".to_owned()),
 //! 	};
-//! 	let serialized = (original.to_json_string()).ok().unwrap();
+//! 	let serialized = original.to_json_string().unwrap();
 //! 	println!("{}", serialized);  // Space-efficient "ugly" format
-//! 	let deserialized = (UserInfo::from_json_string(&serialized)).ok().unwrap();
+//! 	let deserialized = UserInfo::from_json_string(&serialized).unwrap();
 //! 	assert_eq!(original, deserialized);
 //! }
 //! ```
