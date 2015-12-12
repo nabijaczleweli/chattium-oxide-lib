@@ -31,11 +31,7 @@ impl FromJsonnable for ChatMessage {
 			Value::Object(map) => {
 				let sender = try!(
 					match map.get("sender") {
-						Some(sender) =>
-							match sender {
-								&Value::Object(_) => ChatUser::from_json(sender.clone()),
-								_ => Err(JsonError::type_mismatch(Type::String)),
-							},
+						Some(sender) => ChatUser::from_json(sender.clone()),
 						None => Err(JsonError::missing_field("Missing \"sender\"")),
 					});
 				let value =
@@ -49,11 +45,7 @@ impl FromJsonnable for ChatMessage {
 					};
 				let time_posted = try!(
 					match map.get("time_posted") {
-						Some(time_posted) =>
-							match time_posted {
-								&Value::Object(_) => Tm::from_json(time_posted.clone()),
-								_ => Err(JsonError::type_mismatch(Type::String)),
-							},
+						Some(time_posted) => Tm::from_json(time_posted.clone()),
 						None => Err(JsonError::missing_field("Missing \"time_posted\"")),
 					});
 
