@@ -13,7 +13,7 @@ script:  # Added "--features ci to default"
   - cargo test --verbose --features ci
 
 after_script:
-  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "$TRAVIS_RUST_VERSION" == "stable" ]; then echo "Update docs for commit $TRAVIS_COMMIT" > $TRAVIS_BUILD_DIR/../DOC_UPDATE_MSG; fi
+  - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "$TRAVIS_RUST_VERSION" == "stable" ]; then echo "Update docs for commits $TRAVIS_COMMIT_RANGE" > $TRAVIS_BUILD_DIR/../DOC_UPDATE_MSG; fi
   - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "$TRAVIS_RUST_VERSION" == "stable" ]; then echo >> $TRAVIS_BUILD_DIR/../DOC_UPDATE_MSG; fi
   - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "$TRAVIS_RUST_VERSION" == "stable" ]; then git log $TRAVIS_COMMIT_RANGE --pretty=oneline >> $TRAVIS_BUILD_DIR/../DOC_UPDATE_MSG; fi
   - if [ -n "$TRAVIS_PULL_REQUEST" ] && [ "$TRAVIS_RUST_VERSION" == "stable" ]; then mkdir -p ~/.ssh && cp gh_rsa ~/.ssh/id_rsa && chmod 700 ~/.ssh && chmod 600 ~/.ssh/id_rsa; fi
