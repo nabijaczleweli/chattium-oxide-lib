@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `ChatUser` struct in crate `chattium_oxide_lib`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ChatUser">
+
+    <title>chattium_oxide_lib::ChatUser - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='index.html'>chattium_oxide_lib</a></p><script>window.sidebarCurrent = {name: 'ChatUser', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>chattium_oxide_lib</a>::<wbr><a class='struct' href=''>ChatUser</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-15' class='srclink' href='../src/chattium_oxide_lib/user.rs.html#10-14' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct ChatUser {
+    pub name: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>,
+    // some fields omitted
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                                  <td id='structfield.name'><code>name</code></td><td><div class='docblock'><p>User&#39;s desired name</p>
+</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../chattium_oxide_lib/struct.ChatUser.html' title='chattium_oxide_lib::ChatUser'>ChatUser</a></code></h3><div class='impl-items'><h4 id='method.get' class='method'><code>fn <a href='#method.get' class='fnname'>get</a>&lt;Addr: <a class='trait' href='https://doc.rust-lang.org/nightly/std/net/addr/trait.ToSocketAddrs.html' title='std::net::addr::ToSocketAddrs'>ToSocketAddrs</a>&gt;(name: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>, poster: Addr) -&gt; <a class='struct' href='../chattium_oxide_lib/struct.ChatUser.html' title='chattium_oxide_lib::ChatUser'>ChatUser</a></code></h4>
+<div class='docblock'><p>Creates a user defined by the supplied arguments</p>
+</div><h4 id='method.me' class='method'><code>fn <a href='#method.me' class='fnname'>me</a>(name: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>) -&gt; <a class='struct' href='../chattium_oxide_lib/struct.ChatUser.html' title='chattium_oxide_lib::ChatUser'>ChatUser</a></code></h4>
+<div class='docblock'><p>Creates a named, IP-less user.
+Used by the client, as it doesn&#39;t know its IP, which is filled in server-side using <a href="#method.fill_ip"><code>fill_ip()</code></a>.</p>
+</div><h4 id='method.fill_ip' class='method'><code>fn <a href='#method.fill_ip' class='fnname'>fill_ip</a>&lt;Addr: <a class='trait' href='https://doc.rust-lang.org/nightly/std/net/addr/trait.ToSocketAddrs.html' title='std::net::addr::ToSocketAddrs'>ToSocketAddrs</a>&gt;(&amp;mut self, poster: Addr)</code></h4>
+<div class='docblock'><p>Server-side function to fill in user&#39;s IP, see <a href="#method.me"><code>me()</code></a>.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='struct' href='../chattium_oxide_lib/struct.ChatUser.html' title='chattium_oxide_lib::ChatUser'>ChatUser</a></code></h3><div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.eq' class='fnname'>eq</a>(&amp;self, other: &amp;<a class='struct' href='../chattium_oxide_lib/struct.ChatUser.html' title='chattium_oxide_lib::ChatUser'>ChatUser</a>) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ne' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;Rhs) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html' title='core::cmp::Eq'>Eq</a> for <a class='struct' href='../chattium_oxide_lib/struct.ChatUser.html' title='chattium_oxide_lib::ChatUser'>ChatUser</a></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl <a class='trait' href='../chattium_oxide_lib/json/trait.FromJsonnable.html' title='chattium_oxide_lib::json::FromJsonnable'>FromJsonnable</a> for <a class='struct' href='../chattium_oxide_lib/struct.ChatUser.html' title='chattium_oxide_lib::ChatUser'>ChatUser</a></code></h3><div class='impl-items'><h4 id='method.from_json' class='method'><code>fn <a href='../chattium_oxide_lib/json/trait.FromJsonnable.html#method.from_json' class='fnname'>from_json</a>(json: <a class='enum' href='../serde_json/value/enum.Value.html' title='serde_json::value::Value'>Value</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../chattium_oxide_lib/struct.ChatUser.html' title='chattium_oxide_lib::ChatUser'>ChatUser</a>, <a class='enum' href='../serde_json/error/enum.Error.html' title='serde_json::error::Error'>JsonError</a>&gt;</code></h4>
+<h4 id='method.from_json_string' class='method'><code>fn <a href='../chattium_oxide_lib/json/trait.FromJsonnable.html#method.from_json_string' class='fnname'>from_json_string</a>(string: &amp;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;Self, <a class='enum' href='../serde_json/error/enum.Error.html' title='serde_json::error::Error'>JsonError</a>&gt;</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a class='struct' href='../chattium_oxide_lib/struct.ChatUser.html' title='chattium_oxide_lib::ChatUser'>ChatUser</a></code></h3><div class='impl-items'><h4 id='method.to_json' class='method'><code>fn <a href='../chattium_oxide_lib/json/trait.ToJsonnable.html#method.to_json' class='fnname'>to_json</a>(&amp;self) -&gt; <a class='enum' href='../serde_json/value/enum.Value.html' title='serde_json::value::Value'>Value</a></code></h4>
+<h4 id='method.to_json_string' class='method'><code>fn <a href='../chattium_oxide_lib/json/trait.ToJsonnable.html#method.to_json_string' class='fnname'>to_json_string</a>(&amp;self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='enum' href='../serde_json/error/enum.Error.html' title='serde_json::error::Error'>JsonError</a>&gt;</code></h4>
+</div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../chattium_oxide_lib/struct.ChatUser.html' title='chattium_oxide_lib::ChatUser'>ChatUser</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../chattium_oxide_lib/struct.ChatUser.html' title='chattium_oxide_lib::ChatUser'>ChatUser</a></code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../chattium_oxide_lib/struct.ChatUser.html' title='chattium_oxide_lib::ChatUser'>ChatUser</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#method.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "chattium_oxide_lib";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script async src="../search-index.js"></script>
+</body>
+</html>
