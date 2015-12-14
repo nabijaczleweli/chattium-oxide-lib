@@ -7,7 +7,7 @@ use serde_json::error::Error as JsonError;
 use serde_json::builder::ObjectBuilder;
 
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ChatMessage {
 	pub sender: ChatUser,
 	pub value: String,
