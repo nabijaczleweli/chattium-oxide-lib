@@ -48,3 +48,27 @@ impl ToJsonnable for Tm {
 		                    .unwrap()
 	}
 }
+
+impl<T: FromJsonnable> FromJsonnable for Vec<T> {
+	fn from_json(json: Value) -> Result<Self, JsonError> {
+		match json {
+			Value::Array(arr) => {
+				let mut elems: Vec<T> = Vec::with_capacity(arr.len());
+				for elem in arr {
+					match T::from_json(elem) {
+						Ok(elem) => elems.push(elem),
+						Err(e) => return Err(e),
+					}
+				}
+				Ok(elems)
+			},
+			_ => Err(JsonError::type_mismatch(Type::Seq)),
+		}
+	}
+}
+
+impl<T: ToJsonnable> ToJsonnable for Vec<T> {
+	fn to_json(&self) -> Value {
+		Value::Array(self.iter().map(|ref elem| elem.to_json()).collect())
+	}
+}
