@@ -72,3 +72,54 @@ impl<T: ToJsonnable> ToJsonnable for Vec<T> {
 		Value::Array(self.iter().map(|ref elem| elem.to_json()).collect())
 	}
 }
+
+
+macro_rules! primitive_to_json {
+	($t:ty, $v:ident, $d:ty) => {
+		impl ToJsonnable for $t {
+			fn to_json(&self) -> Value {
+				Value::$v(self.clone() as $d)
+			}
+		}
+	};
+}
+
+macro_rules! primitive_from_json {
+	($t:ty, $v:ident) => {
+		impl FromJsonnable for $t {
+			fn from_json(json: Value) -> Result<Self, JsonError> {
+				match json {
+					Value::$v(value) => Ok(value as $t),
+					_ => Err(JsonError::type_mismatch(Type::$v)),
+				}
+			}
+		}
+	};
+}
+
+primitive_to_json!(i8,  I64, i64);
+primitive_to_json!(i16, I64, i64);
+primitive_to_json!(i32, I64, i64);
+primitive_to_json!(i64, I64, i64);
+
+primitive_to_json!(u8,  U64, u64);
+primitive_to_json!(u16, U64, u64);
+primitive_to_json!(u32, U64, u64);
+primitive_to_json!(u64, U64, u64);
+
+primitive_to_json!(f32, F64, f64);
+primitive_to_json!(f64, F64, f64);
+
+
+primitive_from_json!(i8,  I64);
+primitive_from_json!(i16, I64);
+primitive_from_json!(i32, I64);
+primitive_from_json!(i64, I64);
+
+primitive_from_json!(u8,  U64);
+primitive_from_json!(u16, U64);
+primitive_from_json!(u32, U64);
+primitive_from_json!(u64, U64);
+
+primitive_from_json!(f32, F64);
+primitive_from_json!(f64, F64);
