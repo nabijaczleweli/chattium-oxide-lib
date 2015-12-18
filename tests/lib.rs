@@ -1,7 +1,9 @@
 extern crate chattium_oxide_lib as cho;  // Chang
 extern crate rand;
+extern crate time;
 
 
+use time::Tm;
 use rand::Rng;
 use std::net::Ipv4Addr;
 
@@ -16,6 +18,12 @@ fn random_name<Rand: Rng>(rng: &mut Rand) -> String {
 
 fn random_text<Rand: Rng>(rng: &mut Rand) -> String {
 	rng.gen_ascii_chars().take(100).collect()
+}
+
+fn random_time<Rand: Rng>(rng: &mut Rand) -> Tm {
+	use time::{at_utc, Timespec};
+
+	at_utc(Timespec::new(rng.gen_range(1420070400 /*1 Jan. 2015*/, 1893456000 /*1. Jan 2030*/), rng.gen_range(0, 1000000000)))
 }
 
 
@@ -286,6 +294,28 @@ mod message {
 		//#[should_fail]  // The attribute `should_fail` is currently unknown to the compiler and may have meaning added to it in the future
 		fn deserialization_from_malformed_fails() {
 			ChatMessage::from_json_string(&"{\"user\": \"you\"}".to_string()).unwrap_err();
+		}
+	}
+}
+
+#[cfg(test)]
+mod json_impl {
+	use rand;
+	use time::Tm;
+	use random_time;
+	use cho::json::*;
+
+
+	#[test]
+	fn time_transserializes_properly() {
+		let mut rng = rand::thread_rng();
+		let times = if cfg!(feature = "ci") {100000} else {1000};
+
+		for _ in 1..times {
+			let time = random_time(&mut rng);
+			let time_s = time.to_json_string().expect("Serialization to string via time::Tm");
+			let trans = Tm::from_json_string(&time_s).expect("Deserialization from string via time::Tm");
+			assert_eq!(time, trans);
 		}
 	}
 }
