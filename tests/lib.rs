@@ -383,7 +383,7 @@ mod json_impl {
 	#[test]
 	fn vec_transserializes_properly_through_string() {
 		let mut rng = rand::thread_rng();
-		let times = if cfg!(feature = "ci") {100000} else {1000};
+		let times = if cfg!(feature = "ci") {10000} else {1000};
 
 		for size in 1..times {
 			let vec: Vec<i32> = (1..size).map(|_| rng.gen()).collect();
@@ -396,7 +396,7 @@ mod json_impl {
 	#[test]
 	fn vec_transserializes_properly() {
 		let mut rng = rand::thread_rng();
-		let times = if cfg!(feature = "ci") {100000} else {1000};
+		let times = if cfg!(feature = "ci") {10000} else {1000};
 
 		for size in 1..times {
 			let vec: Vec<i32> = (1..size).map(|_| rng.gen()).collect();
