@@ -85,12 +85,14 @@ macro_rules! primitive_to_json {
 }
 
 macro_rules! primitive_from_json {
-	($t:ty, $v:ident) => {
+	($t:ty, $expected:ident, $($v:ident)+) => {
 		impl FromJsonnable for $t {
 			fn from_json(json: Value) -> Result<Self, JsonError> {
 				match json {
-					Value::$v(value) => Ok(value as $t),
-					_ => Err(JsonError::type_mismatch(Type::$v)),
+					$(
+						Value::$v(value) => Ok(value as $t),
+					)+
+					_ => Err(JsonError::type_mismatch(Type::$expected)),
 				}
 			}
 		}
@@ -111,15 +113,15 @@ primitive_to_json!(f32, F64, f64);
 primitive_to_json!(f64, F64, f64);
 
 
-primitive_from_json!(i8,  I64);
-primitive_from_json!(i16, I64);
-primitive_from_json!(i32, I64);
-primitive_from_json!(i64, I64);
+primitive_from_json!(i8,  I64, I64 U64);  // Non-signed numbers are interpreted as unsigned
+primitive_from_json!(i16, I64, I64 U64);
+primitive_from_json!(i32, I64, I64 U64);
+primitive_from_json!(i64, I64, I64 U64);
 
-primitive_from_json!(u8,  U64);
-primitive_from_json!(u16, U64);
-primitive_from_json!(u32, U64);
-primitive_from_json!(u64, U64);
+primitive_from_json!(u8,  U64, U64);
+primitive_from_json!(u16, U64, U64);
+primitive_from_json!(u32, U64, U64);
+primitive_from_json!(u64, U64, U64);
 
-primitive_from_json!(f32, F64);
-primitive_from_json!(f64, F64);
+primitive_from_json!(f32, F64, F64);
+primitive_from_json!(f64, F64, F64);
