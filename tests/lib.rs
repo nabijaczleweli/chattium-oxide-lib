@@ -379,4 +379,29 @@ mod json_impl {
 	                |n: f32, t: f32| assert!((n - t).abs() < f32::EPSILON * 10f32));
 	primitive_test!(f64, "f64", f64_transserializes_properly, f64_transserializes_properly_through_string,
 	                |n: f64, t: f64| assert!((n - t).abs() < f64::EPSILON * 10f64));
+
+	#[test]
+	fn vec_transserializes_properly_through_string() {
+		let mut rng = rand::thread_rng();
+		let times = if cfg!(feature = "ci") {100000} else {1000};
+
+		for size in 1..times {
+			let vec: Vec<i32> = (1..size).map(|_| rng.gen()).collect();
+			let vec_s = vec.to_json_string().expect("Serialization to string via Vec");
+			let trans: Vec<i32> = FromJsonnable::from_json_string(&vec_s).expect("Deserialization from string via Vec");
+			assert_eq!(vec, trans);
+		}
+	}
+
+	#[test]
+	fn vec_transserializes_properly() {
+		let mut rng = rand::thread_rng();
+		let times = if cfg!(feature = "ci") {100000} else {1000};
+
+		for size in 1..times {
+			let vec: Vec<i32> = (1..size).map(|_| rng.gen()).collect();
+			let trans: Vec<i32> = FromJsonnable::from_json(vec.to_json()).expect("Full transserialization via Vec");
+			assert_eq!(vec, trans);
+		}
+	}
 }
