@@ -300,10 +300,32 @@ mod message {
 
 #[cfg(test)]
 mod json_impl {
-	use rand;
+	use rand::{self, Rng};
 	use time::Tm;
 	use random_time;
 	use cho::json::*;
+	use std::{f32, f64};
+
+
+	macro_rules! primitive_test {
+		($t:ty, $s:expr, $name:ident, $cmp:expr) => {
+			#[test]
+			fn $name() {
+				let mut rng = rand::thread_rng();
+				let times = if cfg!(feature = "ci") {100000} else {1000};
+
+				let ser_msg = &*&("Serialization to string via ".to_string() + $s);
+				let des_msg = &*&("Deserialization from string via ".to_string() + $s);
+				for _ in 1..times {
+					let num: $t = rng.gen();
+					let num_s = num.to_json_string().expect(ser_msg);
+					let trans = FromJsonnable::from_json_string(&num_s).expect(des_msg);
+					println!("{:?} = {:?}", num, trans);
+					$cmp(num, trans);
+				}
+			}
+		};
+	}
 
 
 	#[test]
@@ -318,4 +340,17 @@ mod json_impl {
 			assert_eq!(time, trans);
 		}
 	}
+
+	primitive_test!(i8,  "i8",  i8_transserializes_properly,  |n, t| assert_eq!(n, t));
+	primitive_test!(i16, "i16", i16_transserializes_properly, |n, t| assert_eq!(n, t));
+	primitive_test!(i32, "i32", i32_transserializes_properly, |n, t| assert_eq!(n, t));
+	primitive_test!(i64, "i64", i64_transserializes_properly, |n, t| assert_eq!(n, t));
+
+	primitive_test!(u8,  "u8",  u8_transserializes_properly,  |n, t| assert_eq!(n, t));
+	primitive_test!(u16, "u16", u16_transserializes_properly, |n, t| assert_eq!(n, t));
+	primitive_test!(u32, "u32", u32_transserializes_properly, |n, t| assert_eq!(n, t));
+	primitive_test!(u64, "u64", u64_transserializes_properly, |n, t| assert_eq!(n, t));
+
+	primitive_test!(f32, "f32", f32_transserializes_properly, |n: f32, t: f32| assert!((n - t).abs() < f32::EPSILON * 10f32));
+	primitive_test!(f64, "f64", f64_transserializes_properly, |n: f64, t: f64| assert!((n - t).abs() < f64::EPSILON * 10f64));
 }
