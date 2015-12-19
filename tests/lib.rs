@@ -308,9 +308,9 @@ mod json_impl {
 
 
 	macro_rules! primitive_test {
-		($t:ty, $s:expr, $name:ident, $cmp:expr) => {
+		($t:ty, $s:expr, $standard_name:ident, $trans_name:ident, $cmp:expr) => {
 			#[test]
-			fn $name() {
+			fn $trans_name() {
 				let mut rng = rand::thread_rng();
 				let times = if cfg!(feature = "ci") {100000} else {1000};
 
@@ -318,9 +318,21 @@ mod json_impl {
 				let des_msg = &*&("Deserialization from string via ".to_string() + $s);
 				for _ in 1..times {
 					let num: $t = rng.gen();
-					let num_s = num.to_json_string().expect(ser_msg);
-					let trans = FromJsonnable::from_json_string(&num_s).expect(des_msg);
-					println!("{:?} = {:?}", num, trans);
+					let num_s = num.to_json_string().expect(&ser_msg);
+					let trans: $t = FromJsonnable::from_json_string(&num_s).expect(&des_msg);
+					$cmp(num, trans);
+				}
+			}
+
+			#[test]
+			fn $standard_name() {
+				let mut rng = rand::thread_rng();
+				let times = if cfg!(feature = "ci") {100000} else {1000};
+
+				let msg = &*&("Full transserialization via ".to_string() + $s);
+				for _ in 1..times {
+					let num: $t = rng.gen();
+					let trans: $t = FromJsonnable::from_json(num.to_json()).expect(&msg);
 					$cmp(num, trans);
 				}
 			}
@@ -341,16 +353,18 @@ mod json_impl {
 		}
 	}
 
-	primitive_test!(i8,  "i8",  i8_transserializes_properly,  |n, t| assert_eq!(n, t));
-	primitive_test!(i16, "i16", i16_transserializes_properly, |n, t| assert_eq!(n, t));
-	primitive_test!(i32, "i32", i32_transserializes_properly, |n, t| assert_eq!(n, t));
-	primitive_test!(i64, "i64", i64_transserializes_properly, |n, t| assert_eq!(n, t));
+	primitive_test!(i8,  "i8",  i8_transserializes_properly,  i8_transserializes_properly_through_string,  |n, t| assert_eq!(n, t));
+	primitive_test!(i16, "i16", i16_transserializes_properly, i16_transserializes_properly_through_string, |n, t| assert_eq!(n, t));
+	primitive_test!(i32, "i32", i32_transserializes_properly, i32_transserializes_properly_through_string, |n, t| assert_eq!(n, t));
+	primitive_test!(i64, "i64", i64_transserializes_properly, i64_transserializes_properly_through_string, |n, t| assert_eq!(n, t));
 
-	primitive_test!(u8,  "u8",  u8_transserializes_properly,  |n, t| assert_eq!(n, t));
-	primitive_test!(u16, "u16", u16_transserializes_properly, |n, t| assert_eq!(n, t));
-	primitive_test!(u32, "u32", u32_transserializes_properly, |n, t| assert_eq!(n, t));
-	primitive_test!(u64, "u64", u64_transserializes_properly, |n, t| assert_eq!(n, t));
+	primitive_test!(u8,  "u8",  u8_transserializes_properly,  u8_transserializes_properly_through_string,  |n, t| assert_eq!(n, t));
+	primitive_test!(u16, "u16", u16_transserializes_properly, u16_transserializes_properly_through_string, |n, t| assert_eq!(n, t));
+	primitive_test!(u32, "u32", u32_transserializes_properly, u32_transserializes_properly_through_string, |n, t| assert_eq!(n, t));
+	primitive_test!(u64, "u64", u64_transserializes_properly, u64_transserializes_properly_through_string, |n, t| assert_eq!(n, t));
 
-	primitive_test!(f32, "f32", f32_transserializes_properly, |n: f32, t: f32| assert!((n - t).abs() < f32::EPSILON * 10f32));
-	primitive_test!(f64, "f64", f64_transserializes_properly, |n: f64, t: f64| assert!((n - t).abs() < f64::EPSILON * 10f64));
+	primitive_test!(f32, "f32", f32_transserializes_properly, f32_transserializes_properly_through_string,
+	                |n: f32, t: f32| assert!((n - t).abs() < f32::EPSILON * 10f32));
+	primitive_test!(f64, "f64", f64_transserializes_properly, f64_transserializes_properly_through_string,
+	                |n: f64, t: f64| assert!((n - t).abs() < f64::EPSILON * 10f64));
 }
