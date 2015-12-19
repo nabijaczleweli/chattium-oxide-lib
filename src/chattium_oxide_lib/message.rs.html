@@ -120,7 +120,7 @@
 <span class='kw'>use</span> <span class='ident'>serde_json</span>::<span class='ident'>builder</span>::<span class='ident'>ObjectBuilder</span>;
 
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ChatMessage</span> {
 	<span class='kw'>pub</span> <span class='ident'>sender</span>: <span class='ident'>ChatUser</span>,
 	<span class='kw'>pub</span> <span class='ident'>value</span>: <span class='ident'>String</span>,
