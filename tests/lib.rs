@@ -341,7 +341,7 @@ mod json_impl {
 
 
 	#[test]
-	fn time_transserializes_properly() {
+	fn time_transserializes_properly_through_string() {
 		let mut rng = rand::thread_rng();
 		let times = if cfg!(feature = "ci") {100000} else {1000};
 
@@ -349,6 +349,18 @@ mod json_impl {
 			let time = random_time(&mut rng);
 			let time_s = time.to_json_string().expect("Serialization to string via time::Tm");
 			let trans = Tm::from_json_string(&time_s).expect("Deserialization from string via time::Tm");
+			assert_eq!(time, trans);
+		}
+	}
+
+	#[test]
+	fn time_transserializes_properly() {
+		let mut rng = rand::thread_rng();
+		let times = if cfg!(feature = "ci") {100000} else {1000};
+
+		for _ in 1..times {
+			let time = random_time(&mut rng);
+			let trans = Tm::from_json(time.to_json()).expect("Full transserialization via time::Tm");
 			assert_eq!(time, trans);
 		}
 	}
