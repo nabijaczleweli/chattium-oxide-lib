@@ -223,53 +223,53 @@
 <span class='doccomment'>//! impl FromJsonnable for UserInfo {</span>
 <span class='doccomment'>//! 	// Verbose, but safe, matching algorithm</span>
 <span class='doccomment'>//! 	fn from_json(json: Value) -&gt; Result&lt;Self, JsonError&gt; {</span>
-<span class='doccomment'>//!			match json {</span>
-<span class='doccomment'>//!				Value::Object(map) =&gt; {</span>
-<span class='doccomment'>//!					let name =</span>
-<span class='doccomment'>//!						match map.get(&quot;name&quot;) {</span>
-<span class='doccomment'>//!							Some(name) =&gt;</span>
-<span class='doccomment'>//!								match name {</span>
-<span class='doccomment'>//!									&amp;Value::String(ref name) =&gt; name,</span>
-<span class='doccomment'>//!									_ =&gt; return Err(JsonError::type_mismatch(Type::String)),</span>
-<span class='doccomment'>//!								},</span>
-<span class='doccomment'>//!							None =&gt; return Err(JsonError::missing_field(&quot;Missing \&quot;name\&quot;&quot;)),</span>
-<span class='doccomment'>//!						};</span>
-<span class='doccomment'>//!					let id =</span>
-<span class='doccomment'>//!						match map.get(&quot;id&quot;) {</span>
-<span class='doccomment'>//!							Some(id) =&gt;</span>
-<span class='doccomment'>//!								match id {</span>
-<span class='doccomment'>//!									&amp;Value::I64(id) =&gt; id,</span>
-<span class='doccomment'>//!									&amp;Value::U64(id) =&gt; id as i64,</span>
-<span class='doccomment'>//!									_ =&gt; return Err(JsonError::type_mismatch(Type::I64)),</span>
-<span class='doccomment'>//!								},</span>
-<span class='doccomment'>//!							None =&gt; return Err(JsonError::missing_field(&quot;Missing \&quot;id\&quot;&quot;)),</span>
-<span class='doccomment'>//!						};</span>
-<span class='doccomment'>//!					let address =</span>
-<span class='doccomment'>//!						match map.get(&quot;address&quot;) {</span>
-<span class='doccomment'>//!							Some(address) =&gt;</span>
-<span class='doccomment'>//!								match address {</span>
-<span class='doccomment'>//!									&amp;Value::Array(ref address) =&gt;</span>
-<span class='doccomment'>//!										match address.len() {</span>
-<span class='doccomment'>//!											2 =&gt;</span>
-<span class='doccomment'>//!												match (&amp;address[0], &amp;address[1]) {</span>
-<span class='doccomment'>//!													(&amp;Value::String(ref laddress), &amp;Value::String(ref raddress)) =&gt; (laddress.clone(), raddress.clone()),</span>
-<span class='doccomment'>//!													_ =&gt; return Err(JsonError::type_mismatch(Type::String)),</span>
-<span class='doccomment'>//!												},</span>
-<span class='doccomment'>//!											_ =&gt; return Err(JsonError::length_mismatch(2)),</span>
-<span class='doccomment'>//!										},</span>
-<span class='doccomment'>//!									_ =&gt; return Err(JsonError::type_mismatch(Type::String)),</span>
-<span class='doccomment'>//!								},</span>
-<span class='doccomment'>//!							None =&gt; return Err(JsonError::missing_field(&quot;Missing \&quot;address\&quot;&quot;)),</span>
-<span class='doccomment'>//!						};</span>
+<span class='doccomment'>//! 		match json {</span>
+<span class='doccomment'>//! 			Value::Object(map) =&gt; {</span>
+<span class='doccomment'>//! 				let name =</span>
+<span class='doccomment'>//! 					match map.get(&quot;name&quot;) {</span>
+<span class='doccomment'>//! 						Some(name) =&gt;</span>
+<span class='doccomment'>//! 							match name {</span>
+<span class='doccomment'>//! 								&amp;Value::String(ref name) =&gt; name,</span>
+<span class='doccomment'>//! 								_ =&gt; return Err(JsonError::type_mismatch(Type::String)),</span>
+<span class='doccomment'>//! 							},</span>
+<span class='doccomment'>//! 						None =&gt; return Err(JsonError::missing_field(&quot;Missing \&quot;name\&quot;&quot;)),</span>
+<span class='doccomment'>//! 					};</span>
+<span class='doccomment'>//! 				let id =</span>
+<span class='doccomment'>//! 					match map.get(&quot;id&quot;) {</span>
+<span class='doccomment'>//! 						Some(id) =&gt;</span>
+<span class='doccomment'>//! 							match id {</span>
+<span class='doccomment'>//! 								&amp;Value::I64(id) =&gt; id,</span>
+<span class='doccomment'>//! 								&amp;Value::U64(id) =&gt; id as i64,</span>
+<span class='doccomment'>//! 								_ =&gt; return Err(JsonError::type_mismatch(Type::I64)),</span>
+<span class='doccomment'>//! 							},</span>
+<span class='doccomment'>//! 						None =&gt; return Err(JsonError::missing_field(&quot;Missing \&quot;id\&quot;&quot;)),</span>
+<span class='doccomment'>//! 					};</span>
+<span class='doccomment'>//! 				let address =</span>
+<span class='doccomment'>//! 					match map.get(&quot;address&quot;) {</span>
+<span class='doccomment'>//! 						Some(address) =&gt;</span>
+<span class='doccomment'>//! 							match address {</span>
+<span class='doccomment'>//! 								&amp;Value::Array(ref address) =&gt;</span>
+<span class='doccomment'>//! 									match address.len() {</span>
+<span class='doccomment'>//! 										2 =&gt;</span>
+<span class='doccomment'>//! 											match (&amp;address[0], &amp;address[1]) {</span>
+<span class='doccomment'>//! 												(&amp;Value::String(ref laddress), &amp;Value::String(ref raddress)) =&gt; (laddress.clone(), raddress.clone()),</span>
+<span class='doccomment'>//! 												_ =&gt; return Err(JsonError::type_mismatch(Type::String)),</span>
+<span class='doccomment'>//! 											},</span>
+<span class='doccomment'>//! 										_ =&gt; return Err(JsonError::length_mismatch(2)),</span>
+<span class='doccomment'>//! 									},</span>
+<span class='doccomment'>//! 								_ =&gt; return Err(JsonError::type_mismatch(Type::String)),</span>
+<span class='doccomment'>//! 							},</span>
+<span class='doccomment'>//! 						None =&gt; return Err(JsonError::missing_field(&quot;Missing \&quot;address\&quot;&quot;)),</span>
+<span class='doccomment'>//! 					};</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//!					Ok(UserInfo{</span>
-<span class='doccomment'>//!						name: name.clone(),</span>
-<span class='doccomment'>//!						id: id,</span>
-<span class='doccomment'>//!						address: address,//(address.0.clone(), address.1.clone()),</span>
-<span class='doccomment'>//!					})</span>
-<span class='doccomment'>//!				},</span>
-<span class='doccomment'>//!				_ =&gt; Err(JsonError::type_mismatch(Type::Struct)),</span>
-<span class='doccomment'>//!			}</span>
+<span class='doccomment'>//! 				Ok(UserInfo{</span>
+<span class='doccomment'>//! 					name: name.clone(),</span>
+<span class='doccomment'>//! 					id: id,</span>
+<span class='doccomment'>//! 					address: address,//(address.0.clone(), address.1.clone()),</span>
+<span class='doccomment'>//! 				})</span>
+<span class='doccomment'>//! 			},</span>
+<span class='doccomment'>//! 			_ =&gt; Err(JsonError::type_mismatch(Type::Struct)),</span>
+<span class='doccomment'>//! 		}</span>
 <span class='doccomment'>//! 	}</span>
 <span class='doccomment'>//! }</span>
 <span class='doccomment'>//!</span>
