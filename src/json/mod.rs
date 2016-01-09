@@ -39,53 +39,53 @@
 //! impl FromJsonnable for UserInfo {
 //! 	// Verbose, but safe, matching algorithm
 //! 	fn from_json(json: Value) -> Result<Self, JsonError> {
-//!			match json {
-//!				Value::Object(map) => {
-//!					let name =
-//!						match map.get("name") {
-//!							Some(name) =>
-//!								match name {
-//!									&Value::String(ref name) => name,
-//!									_ => return Err(JsonError::type_mismatch(Type::String)),
-//!								},
-//!							None => return Err(JsonError::missing_field("Missing \"name\"")),
-//!						};
-//!					let id =
-//!						match map.get("id") {
-//!							Some(id) =>
-//!								match id {
-//!									&Value::I64(id) => id,
-//!									&Value::U64(id) => id as i64,
-//!									_ => return Err(JsonError::type_mismatch(Type::I64)),
-//!								},
-//!							None => return Err(JsonError::missing_field("Missing \"id\"")),
-//!						};
-//!					let address =
-//!						match map.get("address") {
-//!							Some(address) =>
-//!								match address {
-//!									&Value::Array(ref address) =>
-//!										match address.len() {
-//!											2 =>
-//!												match (&address[0], &address[1]) {
-//!													(&Value::String(ref laddress), &Value::String(ref raddress)) => (laddress.clone(), raddress.clone()),
-//!													_ => return Err(JsonError::type_mismatch(Type::String)),
-//!												},
-//!											_ => return Err(JsonError::length_mismatch(2)),
-//!										},
-//!									_ => return Err(JsonError::type_mismatch(Type::String)),
-//!								},
-//!							None => return Err(JsonError::missing_field("Missing \"address\"")),
-//!						};
+//! 		match json {
+//! 			Value::Object(map) => {
+//! 				let name =
+//! 					match map.get("name") {
+//! 						Some(name) =>
+//! 							match name {
+//! 								&Value::String(ref name) => name,
+//! 								_ => return Err(JsonError::type_mismatch(Type::String)),
+//! 							},
+//! 						None => return Err(JsonError::missing_field("Missing \"name\"")),
+//! 					};
+//! 				let id =
+//! 					match map.get("id") {
+//! 						Some(id) =>
+//! 							match id {
+//! 								&Value::I64(id) => id,
+//! 								&Value::U64(id) => id as i64,
+//! 								_ => return Err(JsonError::type_mismatch(Type::I64)),
+//! 							},
+//! 						None => return Err(JsonError::missing_field("Missing \"id\"")),
+//! 					};
+//! 				let address =
+//! 					match map.get("address") {
+//! 						Some(address) =>
+//! 							match address {
+//! 								&Value::Array(ref address) =>
+//! 									match address.len() {
+//! 										2 =>
+//! 											match (&address[0], &address[1]) {
+//! 												(&Value::String(ref laddress), &Value::String(ref raddress)) => (laddress.clone(), raddress.clone()),
+//! 												_ => return Err(JsonError::type_mismatch(Type::String)),
+//! 											},
+//! 										_ => return Err(JsonError::length_mismatch(2)),
+//! 									},
+//! 								_ => return Err(JsonError::type_mismatch(Type::String)),
+//! 							},
+//! 						None => return Err(JsonError::missing_field("Missing \"address\"")),
+//! 					};
 //!
-//!					Ok(UserInfo{
-//!						name: name.clone(),
-//!						id: id,
-//!						address: address,//(address.0.clone(), address.1.clone()),
-//!					})
-//!				},
-//!				_ => Err(JsonError::type_mismatch(Type::Struct)),
-//!			}
+//! 				Ok(UserInfo{
+//! 					name: name.clone(),
+//! 					id: id,
+//! 					address: address,//(address.0.clone(), address.1.clone()),
+//! 				})
+//! 			},
+//! 			_ => Err(JsonError::type_mismatch(Type::Struct)),
+//! 		}
 //! 	}
 //! }
 //!
