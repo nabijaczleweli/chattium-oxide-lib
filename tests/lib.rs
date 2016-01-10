@@ -171,6 +171,7 @@ mod message {
 	use cho::*;
 	use std::time::Duration;
 	use std::thread::sleep;
+	use std::sync::RwLock;
 
 
 	#[test]
@@ -232,11 +233,25 @@ mod message {
 		assert_eq!(message, clone);
 	}
 
+	#[test]
+	fn ip_filler_properly_increases_and_sets() {
+		let mut rng = rand::thread_rng();
+		let times = if cfg!(feature = "ci") {100000} else {1000};
+
+		let id_lock = RwLock::new(1u64);
+		for time in 1..times {
+			let mut message = ChatMessage::new(ChatUser::get(random_name(&mut rng), random_ip(&mut rng)), random_text(&mut rng));
+			message.fill_id(id_lock.write().unwrap());
+			assert_eq!(message.id, time);
+			assert_eq!(*id_lock.read().unwrap(), time + 1);
+		}
+	}
+
 	mod j_son {
 		use random_ip;
 		use random_name;
 		use random_text;
-		use rand;
+		use rand::{self, Rng};
 		use cho::*;
 		use cho::json::*;
 
@@ -247,7 +262,8 @@ mod message {
 			let times = if cfg!(feature = "ci") {100000} else {1000};
 
 			for _ in 1..times {
-				let message = ChatMessage::new(ChatUser::get(random_name(&mut rng), random_ip(&mut rng)), random_text(&mut rng));
+				let mut message = ChatMessage::new(ChatUser::get(random_name(&mut rng), random_ip(&mut rng)), random_text(&mut rng));
+				message.fill_id(&mut rng.next_u64());
 				let trans = ChatMessage::from_json(message.to_json()).expect("Full transserialization via ChatMessage");
 				assert_eq!(message, trans);
 			}
@@ -259,7 +275,8 @@ mod message {
 			let times = if cfg!(feature = "ci") {100000} else {1000};
 
 			for _ in 1..times {
-				let message = ChatMessage::new(ChatUser::me(random_name(&mut rng)), random_text(&mut rng));;
+				let mut message = ChatMessage::new(ChatUser::me(random_name(&mut rng)), random_text(&mut rng));
+				message.fill_id(&mut rng.next_u64());
 				let trans = ChatMessage::from_json(message.to_json()).expect("IP-less transserialization via ChatMessage");
 				assert_eq!(message, trans);
 			}
@@ -270,7 +287,8 @@ mod message {
 			let times = if cfg!(feature = "ci") {100000} else {1000};
 
 			for _ in 1..times {
-				let message = ChatMessage::new(ChatUser::get(random_name(&mut rng), random_ip(&mut rng)), random_text(&mut rng));
+				let mut message = ChatMessage::new(ChatUser::get(random_name(&mut rng), random_ip(&mut rng)), random_text(&mut rng));
+				message.fill_id(&mut rng.next_u64());
 				let message_s = message.to_json_string().expect("Full serialization to string via ChatMessage");
 				let trans = ChatMessage::from_json_string(&message_s).expect("Full deserialization from string via ChatMessage");
 				assert_eq!(message, trans);
@@ -283,7 +301,8 @@ mod message {
 			let times = if cfg!(feature = "ci") {100000} else {1000};
 
 			for _ in 1..times {
-				let message = ChatMessage::new(ChatUser::me(random_name(&mut rng)), random_text(&mut rng));;
+				let mut message = ChatMessage::new(ChatUser::me(random_name(&mut rng)), random_text(&mut rng));
+				message.fill_id(&mut rng.next_u64());
 				let message_s = message.to_json_string().expect("IP-less serialization to string via ChatMessage");
 				let trans = ChatMessage::from_json_string(&message_s).expect("IP-less deserialization from string via ChatMessage");
 				assert_eq!(message, trans);
