@@ -1,1 +1,1 @@
-initSidebarItems({"trait":[["FromJsonnable","A trait for types supporting deserialization from JSON"],["ToJsonnable","A trait for types supporting serialization to JSON"]]});
+initSidebarItems({"enum":[["JsonError","This type represents all possible errors that can occur when serializing or deserializing a value into JSON."]],"trait":[["FromJsonnable","A trait for types supporting deserialization from JSON"],["ToJsonnable","A trait for types supporting serialization to JSON"]]});

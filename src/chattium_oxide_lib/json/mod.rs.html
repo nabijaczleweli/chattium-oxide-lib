@@ -181,6 +181,7 @@
 <span id="139">139</span>
 <span id="140">140</span>
 <span id="141">141</span>
+<span id="142">142</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! JSON bi-directional serialization.</span>
 <span class='doccomment'>//!</span>
@@ -291,7 +292,8 @@
 
 <span class='kw'>use</span> <span class='ident'>serde_json</span>;
 <span class='kw'>use</span> <span class='ident'>serde_json</span>::<span class='ident'>value</span>::<span class='ident'>Value</span>;
-<span class='kw'>use</span> <span class='ident'>serde_json</span>::<span class='ident'>error</span>::<span class='ident'>Error</span> <span class='kw'>as</span> <span class='ident'>JsonError</span>;
+
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>serde_json</span>::<span class='ident'>error</span>::<span class='ident'>Error</span> <span class='kw'>as</span> <span class='ident'>JsonError</span>;
 
 
 <span class='doccomment'>/// A trait for types supporting deserialization from JSON</span>
