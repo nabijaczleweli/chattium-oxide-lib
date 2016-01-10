@@ -6,7 +6,7 @@ use serde_json::error::Error as JsonError;
 use serde_json::builder::ObjectBuilder;
 
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Eq)]
 pub struct ChatUser {
 	/// User's desired name
 	pub name: String,
@@ -15,17 +15,6 @@ pub struct ChatUser {
 
 
 impl ChatUser {
-	fn socket_addr_to_option<Addr: ToSocketAddrs>(poster: Addr) -> Option<SocketAddr> {
-		match poster.to_socket_addrs() {
-			Ok(mut itr) =>
-				match itr.next() {
-					Some(addr) => Some(addr),
-					None => None,
-				},
-			Err(_) => None,
-		}
-	}
-
 	//TODO: look up the addr from name/vice versa, maybe?
 	/// Creates a user defined by the supplied arguments
 	pub fn get<Addr: ToSocketAddrs>(name: String, poster: Addr) -> ChatUser {
@@ -48,6 +37,18 @@ impl ChatUser {
 	pub fn fill_ip<Addr: ToSocketAddrs>(&mut self, poster: Addr) {
 		self.poster = Self::socket_addr_to_option(poster);
 	}
+
+
+	fn socket_addr_to_option<Addr: ToSocketAddrs>(poster: Addr) -> Option<SocketAddr> {
+		match poster.to_socket_addrs() {
+			Ok(mut itr) =>
+				match itr.next() {
+					Some(addr) => Some(addr),
+					None => None,
+				},
+			Err(_) => None,
+		}
+	}
 }
 
 impl PartialEq for ChatUser {
@@ -56,8 +57,6 @@ impl PartialEq for ChatUser {
 		self.poster == other.poster
 	}
 }
-
-impl Eq for ChatUser {}
 
 impl FromJsonnable for ChatUser {
 	fn from_json(json: Value) -> Result<ChatUser, JsonError> {
@@ -68,7 +67,7 @@ impl FromJsonnable for ChatUser {
 						Some(name) =>
 							match name {
 								&Value::String(ref name) => name,
-								_ => return Err(JsonError::type_mismatch(Type::String)),
+								_                        => return Err(JsonError::type_mismatch(Type::String)),
 							},
 						None => return Err(JsonError::missing_field("Missing \"name\"")),
 					};
@@ -77,7 +76,7 @@ impl FromJsonnable for ChatUser {
 						Some(poster) =>
 							match poster {
 								&Value::String(ref poster) => poster,
-								_ => return Err(JsonError::type_mismatch(Type::String)),
+								_                          => return Err(JsonError::type_mismatch(Type::String)),
 							},
 						None => return Err(JsonError::missing_field("Missing \"poster\"")),
 					};
@@ -85,7 +84,7 @@ impl FromJsonnable for ChatUser {
 				Ok(ChatUser::get(name.clone(), &poster[..]))
 			},
 			Value::String(name) => Ok(ChatUser::me(name)),
-			_ => Err(JsonError::type_mismatch(Type::Struct)),
+			_                   => Err(JsonError::type_mismatch(Type::Struct)),
 		}
 	}
 }
@@ -95,10 +94,9 @@ impl ToJsonnable for ChatUser {
 		match self.poster {
 			Some(ref ip) =>
 				ObjectBuilder::new().insert("name", &self.name)
-				                    .insert("poster", ip.to_string())
-				                    .unwrap(),
-			None =>
-				Value::String(self.name.clone()),
+			                      .insert("poster", ip.to_string())
+			                      .unwrap(),
+			None => Value::String(self.name.clone()),
 		}
 	}
 }

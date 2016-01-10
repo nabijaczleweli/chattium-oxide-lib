@@ -17,7 +17,7 @@ impl FromJsonnable for Tm {
 							match sec {
 								&Value::I64(sec) => sec,
 								&Value::U64(sec) => sec as i64,  // The types get weird here
-								_ => return Err(JsonError::type_mismatch(Type::I64)),
+								_                => return Err(JsonError::type_mismatch(Type::I64)),
 							},
 						None => return Err(JsonError::missing_field("Missing \"sec\"")),
 					};
@@ -27,7 +27,7 @@ impl FromJsonnable for Tm {
 							match nsec {
 								&Value::I64(nsec) => nsec as i32,
 								&Value::U64(nsec) => nsec as i32,
-								_ => return Err(JsonError::type_mismatch(Type::I32)),
+								_                 => return Err(JsonError::type_mismatch(Type::I32)),
 							},
 						None => return Err(JsonError::missing_field("Missing \"nsec\"")),
 					};
@@ -57,7 +57,7 @@ impl<T: FromJsonnable> FromJsonnable for Vec<T> {
 				for elem in arr {
 					match T::from_json(elem) {
 						Ok(elem) => elems.push(elem),
-						Err(e) => return Err(e),
+						Err(e)   => return Err(e),
 					}
 				}
 				Ok(elems)
