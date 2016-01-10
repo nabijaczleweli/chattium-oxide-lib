@@ -281,6 +281,7 @@ mod message {
 				assert_eq!(message, trans);
 			}
 		}
+
 		#[test]
 		fn full_transserializes_properly_through_string() {
 			let mut rng = rand::thread_rng();

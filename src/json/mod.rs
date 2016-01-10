@@ -107,7 +107,8 @@ pub use self::implementation::*;
 
 use serde_json;
 use serde_json::value::Value;
-use serde_json::error::Error as JsonError;
+
+pub use serde_json::error::Error as JsonError;
 
 
 /// A trait for types supporting deserialization from JSON
