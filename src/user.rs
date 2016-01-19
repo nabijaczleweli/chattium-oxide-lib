@@ -15,7 +15,6 @@ pub struct ChatUser {
 
 
 impl ChatUser {
-	//TODO: look up the addr from name/vice versa, maybe?
 	/// Creates a user defined by the supplied arguments
 	pub fn get<Addr: ToSocketAddrs>(name: String, poster: Addr) -> ChatUser {
 		ChatUser{
@@ -52,9 +51,9 @@ impl ChatUser {
 }
 
 impl PartialEq for ChatUser {
-	/// Only poster-wise comparison, names might change
+	/// Name-wise comparison for convenience
 	fn eq(&self, other: &ChatUser) -> bool {
-		self.poster == other.poster
+		self.name == other.name
 	}
 }
 
