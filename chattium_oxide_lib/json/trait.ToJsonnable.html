@@ -9,6 +9,7 @@
 
     <title>chattium_oxide_lib::json::ToJsonnable - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
 
     
@@ -45,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-298' class='srclink' href='../../src/chattium_oxide_lib/json/mod.rs.html#129-142' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-300' class='srclink' href='../../src/chattium_oxide_lib/json/mod.rs.html#129-142' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait ToJsonnable: <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a> {
     fn <a href='#tymethod.to_json' class='fnname'>to_json</a>(&amp;self) -&gt; <a class='enum' href='../../serde_json/value/enum.Value.html' title='serde_json::value::Value'>Value</a>;
 
@@ -71,16 +72,16 @@ that <code>self.from_json(self.to_json())</code> never returns <code>Err()</code
 <li><code>impl <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a class='struct' href='../../chattium_oxide_lib/struct.ChatMessage.html' title='chattium_oxide_lib::ChatMessage'>ChatMessage</a></code></li>
 <li><code>impl <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a class='struct' href='../../time/struct.Tm.html' title='time::Tm'>Tm</a></code></li>
 <li><code>impl&lt;T: <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a>&gt; <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;T&gt;</code></li>
-<li><code>impl <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a href='https://doc.rust-lang.org/nightly/std/primitive.i8.html'>i8</a></code></li>
-<li><code>impl <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a href='https://doc.rust-lang.org/nightly/std/primitive.i16.html'>i16</a></code></li>
-<li><code>impl <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a></code></li>
-<li><code>impl <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a href='https://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a></code></li>
-<li><code>impl <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a></code></li>
-<li><code>impl <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a href='https://doc.rust-lang.org/nightly/std/primitive.u16.html'>u16</a></code></li>
-<li><code>impl <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a></code></li>
-<li><code>impl <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a href='https://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a></code></li>
-<li><code>impl <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a></code></li>
-<li><code>impl <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a></code></li>
+<li><code>impl <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i8.html'>i8</a></code></li>
+<li><code>impl <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i16.html'>i16</a></code></li>
+<li><code>impl <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a></code></li>
+<li><code>impl <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a></code></li>
+<li><code>impl <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a></code></li>
+<li><code>impl <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u16.html'>u16</a></code></li>
+<li><code>impl <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a></code></li>
+<li><code>impl <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a></code></li>
+<li><code>impl <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a></code></li>
+<li><code>impl <a class='trait' href='../../chattium_oxide_lib/json/trait.ToJsonnable.html' title='chattium_oxide_lib::json::ToJsonnable'>ToJsonnable</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a></code></li>
 </ul><script type="text/javascript" async
                               src="../../implementors/chattium_oxide_lib/json/trait.ToJsonnable.js">
                       </script></section>
@@ -142,6 +143,6 @@ that <code>self.from_json(self.to_json())</code> never returns <code>Err()</code
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     
-    <script async src="../../search-index.js"></script>
+    <script defer src="../../search-index.js"></script>
 </body>
 </html>
