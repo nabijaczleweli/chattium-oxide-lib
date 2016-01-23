@@ -47,7 +47,19 @@ mod user {
 	}
 
 	#[test]
-	fn equal_because_of_different_names_same_ips() {
+	fn equal_because_of_different_ips_same_names() {
+		let mut rng = rand::thread_rng();
+		let times = if cfg!(feature = "ci") {100000} else {1000};
+
+		for _ in 1..times {
+			let user_1 = ChatUser::get(random_name(&mut rng), random_ip(&mut rng));
+			let user_2 = ChatUser::get(user_1.name.clone(), random_ip(&mut rng));
+			assert_eq!(user_1, user_2);
+		}
+	}
+
+	#[test]
+	fn unequal_because_of_different_names_same_ips() {
 		let mut rng = rand::thread_rng();
 		let times = if cfg!(feature = "ci") {100000} else {1000};
 
@@ -55,18 +67,6 @@ mod user {
 			let ip = random_ip(&mut rng);
 			let user_1 = ChatUser::get(random_name(&mut rng), ip);
 			let user_2 = ChatUser::get(random_name(&mut rng), ip);
-			assert_eq!(user_1, user_2);
-		}
-	}
-
-	#[test]
-	fn unequal_because_of_different_ips_same_names() {
-		let mut rng = rand::thread_rng();
-		let times = if cfg!(feature = "ci") {100000} else {1000};
-
-		for _ in 1..times {
-			let user_1 = ChatUser::get(random_name(&mut rng), random_ip(&mut rng));
-			let user_2 = ChatUser::get(user_1.name.clone(), random_ip(&mut rng));
 			assert!(user_1 != user_2);
 		}
 	}
