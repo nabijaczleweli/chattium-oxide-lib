@@ -7,7 +7,7 @@
 //!
 //! # Examples
 //!
-//! Consider a user information struct `UserInfo`, that needs to be stored somehow:
+//! Consider a user information struct `UserInfo` that needs to be stored somehow:
 //!
 //! ```
 //! extern crate serde;
@@ -32,7 +32,7 @@
 //! 		ObjectBuilder::new().insert("name", &self.name)
 //! 		                    .insert("id", &self.id)
 //! 		                    .insert("address", &self.address)  // Tuples serialize to a JSON array
-//! 		                    .unwrap()
+//! 		                    .build()
 //! 	}
 //! }
 //!
@@ -46,7 +46,7 @@
 //! 						Some(name) =>
 //! 							match name {
 //! 								&Value::String(ref name) => name,
-//! 								_ => return Err(JsonError::type_mismatch(Type::String)),
+//! 								_ => return Err(JsonError::invalid_type(Type::String)),
 //! 							},
 //! 						None => return Err(JsonError::missing_field("Missing \"name\"")),
 //! 					};
@@ -56,7 +56,7 @@
 //! 							match id {
 //! 								&Value::I64(id) => id,
 //! 								&Value::U64(id) => id as i64,
-//! 								_ => return Err(JsonError::type_mismatch(Type::I64)),
+//! 								_ => return Err(JsonError::invalid_type(Type::I64)),
 //! 							},
 //! 						None => return Err(JsonError::missing_field("Missing \"id\"")),
 //! 					};
@@ -69,11 +69,11 @@
 //! 										2 =>
 //! 											match (&address[0], &address[1]) {
 //! 												(&Value::String(ref laddress), &Value::String(ref raddress)) => (laddress.clone(), raddress.clone()),
-//! 												_ => return Err(JsonError::type_mismatch(Type::String)),
+//! 												_ => return Err(JsonError::invalid_type(Type::String)),
 //! 											},
-//! 										_ => return Err(JsonError::length_mismatch(2)),
+//! 										_ => return Err(JsonError::invalid_length(2)),
 //! 									},
-//! 								_ => return Err(JsonError::type_mismatch(Type::String)),
+//! 								_ => return Err(JsonError::invalid_type(Type::String)),
 //! 							},
 //! 						None => return Err(JsonError::missing_field("Missing \"address\"")),
 //! 					};
@@ -84,7 +84,7 @@
 //! 					address: address,//(address.0.clone(), address.1.clone()),
 //! 				})
 //! 			},
-//! 			_ => Err(JsonError::type_mismatch(Type::Struct)),
+//! 			_ => Err(JsonError::invalid_type(Type::Struct)),
 //! 		}
 //! 	}
 //! }

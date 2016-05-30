@@ -48,7 +48,7 @@ impl FromJsonnable for ChatMessage {
 						Some(value) =>
 							match value {
 								&Value::String(ref value) => value,
-								_                         => return Err(JsonError::type_mismatch(Type::String)),
+								_                         => return Err(JsonError::invalid_type(Type::String)),
 							},
 						None => return Err(JsonError::missing_field("Missing \"value\"")),
 					};
@@ -62,7 +62,7 @@ impl FromJsonnable for ChatMessage {
 						Some(id) =>
 							match id {
 								&Value::U64(ref id) => *id,
-								_                   => return Err(JsonError::type_mismatch(Type::U64)),
+								_                   => return Err(JsonError::invalid_type(Type::U64)),
 							},
 						None => 0,
 					};
@@ -74,7 +74,7 @@ impl FromJsonnable for ChatMessage {
 					id: id,
 				})
 			},
-			_ => Err(JsonError::type_mismatch(Type::Struct)),
+			_ => Err(JsonError::invalid_type(Type::Struct)),
 		}
 	}
 }
@@ -89,6 +89,6 @@ impl ToJsonnable for ChatMessage {
 			builder.insert("id", &self.id)
 		} else {
 			builder
-		}.unwrap()
+		}.build()
 	}
 }

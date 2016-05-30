@@ -66,7 +66,7 @@ impl FromJsonnable for ChatUser {
 						Some(name) =>
 							match name {
 								&Value::String(ref name) => name,
-								_                        => return Err(JsonError::type_mismatch(Type::String)),
+								_                        => return Err(JsonError::invalid_type(Type::String)),
 							},
 						None => return Err(JsonError::missing_field("Missing \"name\"")),
 					};
@@ -75,7 +75,7 @@ impl FromJsonnable for ChatUser {
 						Some(poster) =>
 							match poster {
 								&Value::String(ref poster) => poster,
-								_                          => return Err(JsonError::type_mismatch(Type::String)),
+								_                          => return Err(JsonError::invalid_type(Type::String)),
 							},
 						None => return Err(JsonError::missing_field("Missing \"poster\"")),
 					};
@@ -83,7 +83,7 @@ impl FromJsonnable for ChatUser {
 				Ok(ChatUser::get(name.clone(), &poster[..]))
 			},
 			Value::String(name) => Ok(ChatUser::me(name)),
-			_                   => Err(JsonError::type_mismatch(Type::Struct)),
+			_                   => Err(JsonError::invalid_type(Type::Struct)),
 		}
 	}
 }
@@ -94,7 +94,7 @@ impl ToJsonnable for ChatUser {
 			Some(ref ip) =>
 				ObjectBuilder::new().insert("name", &self.name)
 			                      .insert("poster", ip.to_string())
-			                      .unwrap(),
+			                      .build(),
 			None => Value::String(self.name.clone()),
 		}
 	}

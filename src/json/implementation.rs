@@ -17,7 +17,7 @@ impl FromJsonnable for Tm {
 							match sec {
 								&Value::I64(sec) => sec,
 								&Value::U64(sec) => sec as i64,  // The types get weird here
-								_                => return Err(JsonError::type_mismatch(Type::I64)),
+								_                => return Err(JsonError::invalid_type(Type::I64)),
 							},
 						None => return Err(JsonError::missing_field("Missing \"sec\"")),
 					};
@@ -27,14 +27,14 @@ impl FromJsonnable for Tm {
 							match nsec {
 								&Value::I64(nsec) => nsec as i32,
 								&Value::U64(nsec) => nsec as i32,
-								_                 => return Err(JsonError::type_mismatch(Type::I32)),
+								_                 => return Err(JsonError::invalid_type(Type::I32)),
 							},
 						None => return Err(JsonError::missing_field("Missing \"nsec\"")),
 					};
 
 				Ok(at_utc(Timespec::new(sec, nsec)))
 			},
-			_ => Err(JsonError::type_mismatch(Type::Struct)),
+			_ => Err(JsonError::invalid_type(Type::Struct)),
 		}
 	}
 }
@@ -45,7 +45,7 @@ impl ToJsonnable for Tm {
 		let spec = self.to_timespec();
 		ObjectBuilder::new().insert("sec", &spec.sec)
 		                    .insert("nsec", &spec.nsec)
-		                    .unwrap()
+		                    .build()
 	}
 }
 
@@ -62,7 +62,7 @@ impl<T: FromJsonnable> FromJsonnable for Vec<T> {
 				}
 				Ok(elems)
 			},
-			_ => Err(JsonError::type_mismatch(Type::Seq)),
+			_ => Err(JsonError::invalid_type(Type::Seq)),
 		}
 	}
 }
@@ -92,7 +92,7 @@ macro_rules! primitive_from_json {
 					$(
 						Value::$v(value) => Ok(value as $t),
 					)+
-					_ => Err(JsonError::type_mismatch(Type::$expected)),
+					_ => Err(JsonError::invalid_type(Type::$expected)),
 				}
 			}
 		}
