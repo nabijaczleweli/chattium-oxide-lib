@@ -1,4 +1,5 @@
 (function() {var implementors = {};
+implementors["serde_json"] = [];
 implementors['serde_json'] = [];implementors['chattium_oxide_lib'] = [];implementors['serde_json'] = [];implementors['chattium_oxide_lib'] = [];implementors['serde_json'] = [];implementors['chattium_oxide_lib'] = [];implementors["serde_json"] = [];implementors["chattium_oxide_lib"] = [];
 
             if (window.register_implementors) {
